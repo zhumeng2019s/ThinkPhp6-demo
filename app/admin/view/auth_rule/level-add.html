@@ -1,0 +1,90 @@
+{extend name="public/baseoff" /}
+{block name="top"}
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <input type="hidden" name="pid" value="{$level.id}">
+            <div class="layui-form-item">
+                <label for="username" class="layui-form-label">
+                    <span class="x-red">*</span>名称
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="username" name="title" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_pass" class="layui-form-label">
+                    <span class="x-red">*</span>控制器
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="L_pass" name="name" required="" lay-verify="pass"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 300px">
+                <label class="layui-form-label">父级</label>
+                <div class="layui-input-block">
+                    <select name="fid" lay-filter="aihao">
+                        <option value="{$level.fid}" name="fid">{$level.title}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否显示</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="status" lay-skin="switch" lay-filter="switchTest"
+                           lay-text="ON|OFF">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                </label>
+                <button class="layui-btn" lay-filter="add" lay-submit="">
+                    增加
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script>
+    layui.use(['form', 'layer'],
+        function () {
+            $ = layui.jquery;
+            var form = layui.form;
+            var layer = layui.layer;
+            //监听提交
+            form.on('submit(add)',
+                function (data) {
+                    $.ajax({
+                        url: "{:url('admin/AuthRule/levelAdd')}",
+                        type: "post",
+                        data: data.field,
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.code == 200) {
+                                layer.msg(res.message, {
+                                    icon: 6,
+                                    time: 2000
+                                }, function () {
+                                    xadmin.close();
+                                    // 可以对父窗口进行刷新
+                                    xadmin.father_reload();
+                                });
+                            } else {
+                                layer.open({
+                                    title: '添加失败',
+                                    content: res.message,
+                                    icon: 5,
+                                    anim: 6
+                                });
+                            }
+                        }
+                    })
+                    return false;
+                });
+
+        });
+</script>
+{/block}

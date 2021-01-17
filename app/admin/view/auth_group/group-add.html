@@ -1,0 +1,145 @@
+{extend name="public/baseoff" /}
+{block name="top"}
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label for="username" class="layui-form-label">
+                    <span class="x-red">*</span>用户组
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="username" name="title" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                </div>
+            </div>
+            <table class="layui-table layui-form" style="width:300px;margin-left: 60px">
+                <tbody class="x-cate">
+                {volist name="List0" id="vo"}
+                {if $vo.status !== 0}
+                <tr cate-id='{$vo.id}' fid='{$vo.pid}'>
+                    <th width="20">
+                        <input type="checkbox" name="rule[]" value="{$vo.id}" lay-skin="primary">
+                    </th>
+                    <td>
+                        <i class="layui-icon x-show" status='true'>&#xe623;</i>
+                        {$vo.title}
+                    </td>
+                </tr>
+                {/if}
+                <!--二级-->
+                {volist name="List1" id="vo1"}
+                {if $vo1.pid == $vo.id}
+                {if $vo1.status !==0}
+                <tr cate-id='{$vo1.id}' fid='{$vo.id}'>
+                    <th width="20">
+                        <input type="checkbox" name="rule[]" value="{$vo1.id}" lay-skin="primary">
+                    </th>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="layui-icon x-show" status='true'>&#xe623;</i>
+                        {$vo1.title}
+                    </td>
+                </tr>
+                {/if}
+                <!--三级-->
+                {volist name="List2" id="vo2"}
+                {if $vo2.pid == $vo1.id}
+                {if $vo2.status !== 0}
+                <tr cate-id='{$vo2.id}' fid='{$vo1.id}'>
+                    <th width="20">
+                        <input type="checkbox" name="rule[]" value="{$vo2.id}" lay-skin="primary">
+                    </th>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        ├{$vo2.title}
+                    </td>
+                </tr>
+                {/if}
+                {/if}
+                {/volist}
+                {/if}
+                {/volist}
+
+                {/volist}
+                </tbody>
+            </table>
+            <button class="layui-btn" lay-filter="add" lay-submit="" style="margin-left: 100px;width: 60px">
+                增加
+            </button>
+    </div>
+    </form>
+</div>
+</div>
+{/block}
+{block name="js"}
+<script>layui.use(['form', 'layer'],
+    function () {
+        $ = layui.jquery;
+        var form = layui.form;
+        var layer = layui.layer;
+        //监听提交
+        form.on('submit(add)',
+            function (data) {
+                $.ajax({
+                    url: "{:url('admin/AuthGroup/groupAdd')}",
+                    type: "post",
+                    data: data.field,
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == 200) {
+                            layer.msg(res.message, {
+                                icon: 6,
+                                time: 2000
+                            }, function () {
+                                xadmin.close();
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
+                            });
+                        } else {
+                            layer.open({
+                                title: '添加失败',
+                                content: res.message,
+                                icon: 5,
+                                anim: 6
+                            });
+                        }
+                    }
+                })
+                return false;
+            });
+
+    });
+$(function () {
+    $("tbody.x-cate tr[fid!='0']").hide();
+    // 栏目多级显示效果
+    $('.x-show').click(function () {
+        if ($(this).attr('status') == 'true') {
+            $(this).html('&#xe625;');
+            $(this).attr('status', 'false');
+            cateId = $(this).parents('tr').attr('cate-id');
+            $("tbody tr[fid=" + cateId + "]").show();
+        } else {
+            cateIds = [];
+            $(this).html('&#xe623;');
+            $(this).attr('status', 'true');
+            cateId = $(this).parents('tr').attr('cate-id');
+            getCateId(cateId);
+            for (var i in cateIds) {
+                $("tbody tr[cate-id=" + cateIds[i] + "]").hide().find('.x-show').html('&#xe623;').attr('status', 'true');
+            }
+        }
+    })
+})
+var cateIds = [];
+function getCateId(cateId) {
+    $("tbody tr[fid=" + cateId + "]").each(function (index, el) {
+        id = $(el).attr('cate-id');
+        cateIds.push(id);
+        getCateId(id);
+    });
+}
+</script>
+{/block}

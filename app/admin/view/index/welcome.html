@@ -1,0 +1,171 @@
+{extend name="public/base" /}
+{block name="top"}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <blockquote class="layui-elem-quote">欢迎管理员：
+                        <span class="x-red">admin</span> 当前时间: <span id="divT"></span>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">数据统计</div>
+                <div class="layui-card-body ">
+                    <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+<!--                        <li class="layui-col-md2 layui-col-xs6">-->
+<!--                            <a href="javascript:;" class="x-admin-backlog-body">-->
+<!--                                <h3>文章数</h3>-->
+<!--                                <p>-->
+<!--                                    <cite>66</cite></p>-->
+<!--                            </a>-->
+<!--                        </li>-->
+                        <li class="layui-col-md2 layui-col-xs6">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>会员数</h3>
+                                <p>
+                                    <cite>2</cite></p>
+                            </a>
+                        </li>
+<!--                        <li class="layui-col-md2 layui-col-xs6">-->
+<!--                            <a href="javascript:;" class="x-admin-backlog-body">-->
+<!--                                <h3>回复数</h3>-->
+<!--                                <p>-->
+<!--                                    <cite>99</cite></p>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li class="layui-col-md2 layui-col-xs6">-->
+<!--                            <a href="javascript:;" class="x-admin-backlog-body">-->
+<!--                                <h3>商品数</h3>-->
+<!--                                <p>-->
+<!--                                    <cite>67</cite></p>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li class="layui-col-md2 layui-col-xs6">-->
+<!--                            <a href="javascript:;" class="x-admin-backlog-body">-->
+<!--                                <h3>文章数</h3>-->
+<!--                                <p>-->
+<!--                                    <cite>67</cite></p>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li class="layui-col-md2 layui-col-xs6 ">-->
+<!--                            <a href="javascript:;" class="x-admin-backlog-body">-->
+<!--                                <h3>文章数</h3>-->
+<!--                                <p>-->
+<!--                                    <cite>6766</cite></p>-->
+<!--                            </a>-->
+<!--                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">下载
+                    <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
+                <div class="layui-card-body  ">
+                    <p class="layuiadmin-big-font">33,555</p>
+                    <p>新下载
+                        <span class="layuiadmin-span-color">10%
+                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">下载
+                    <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
+                <div class="layui-card-body ">
+                    <p class="layuiadmin-big-font">33,555</p>
+                    <p>新下载
+                        <span class="layuiadmin-span-color">10%
+                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">下载
+                    <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
+                <div class="layui-card-body ">
+                    <p class="layuiadmin-big-font">33,555</p>
+                    <p>新下载
+                        <span class="layuiadmin-span-color">10%
+                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">下载
+                    <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
+                <div class="layui-card-body ">
+                    <p class="layuiadmin-big-font">33,555</p>
+                    <p>新下载
+                        <span class="layuiadmin-span-color">10%
+                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <style id="welcome_style"></style>
+<!--        <div class="layui-col-md12">-->
+<!--            <blockquote class="layui-elem-quote layui-quote-nm"><span-->
+<!--                    style="margin: 0 auto">© 2020 💨 💨 💨 💨  至今 </span> ➕<span style="margin:0 auto"> <a-->
+<!--                    href="https://beian.miit.gov.cn/" target="_blank">冀ICP备2020027051号</a></span></span></blockquote>-->
+<!--        </div>-->
+    </div>
+</div>
+</div>
+{/block}
+{block name="js"}
+<script>
+    function getCurDate() {
+        var d = new Date();
+        var week;
+        switch (d.getDay()) {
+            case 1:
+                week = "星期一";
+                break;
+            case 2:
+                week = "星期二";
+                break;
+            case 3:
+                week = "星期三";
+                break;
+            case 4:
+                week = "星期四";
+                break;
+            case 5:
+                week = "星期五";
+                break;
+            case 6:
+                week = "星期六";
+                break;
+            default:
+                week = "星期天";
+        }
+        var years = d.getFullYear();
+        var month = add_zero(d.getMonth() + 1);
+        var days = add_zero(d.getDate());
+        var hours = add_zero(d.getHours());
+        var minutes = add_zero(d.getMinutes());
+        var seconds = add_zero(d.getSeconds());
+        var ndate = years + "年" + month + "月" + days + "日 " + hours + ":" + minutes + ":" + seconds + " " + week;
+        divT.innerHTML = ndate;
+    }
+
+    function add_zero(temp) {
+        if (temp < 10) return "0" + temp;
+        else return temp;
+    }
+
+    setInterval("getCurDate()", 100);
+</script>
+{/block}

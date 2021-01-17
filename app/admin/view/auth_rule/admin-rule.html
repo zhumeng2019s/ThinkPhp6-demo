@@ -1,0 +1,231 @@
+{extend name="public/base" /}
+{block name="top"}
+<div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a href="">会员</a>
+            <a>
+              <cite>规则组</cite></a>
+          </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+</div>
+<!--  -->
+<div class="layui-card-body ">
+    <div class="layui-card-header">
+        <button class="layui-btn" onclick="xadmin.open('添加规则','{:url(\'AuthRule/ruleAdd\')}')"><i
+                class="layui-icon"></i>添加规则顶级
+        </button>
+    </div>
+    <table class="layui-table layui-form">
+        <thead>
+        <tr>
+            <th width="70">ID</th>
+            <th>栏目名</th>
+            <th width="80">状态</th>
+            <th width="250">操作</th>
+        </thead>
+        <tbody class="x-cate">
+        <!--        顶级-->
+        {volist name="List0" id="vo"}
+        <tr cate-id='{$vo.id}' fid='{$vo.pid}'>
+            <td>{$vo.id}</td>
+            <td>
+                <i class="layui-icon x-show" status='true'>&#xe623;</i>
+                {$vo.title}
+            </td>
+            <td>
+                {if $vo.status == 0}
+                <input type="checkbox" name="openKG" lay-skin="switch" lay-filter="switchTest"
+                       lay-text="ON|OFF" value="{$vo.id}">
+                {else /}
+                <input type="checkbox" checked="" name="openKG" lay-skin="switch" lay-filter="switchTest"
+                       lay-text="ON|OFF" value="{$vo.id}">
+                {/if}
+            </td>
+            <td class="td-manage">
+                <button class="layui-btn layui-btn layui-btn-xs"
+                        onclick="xadmin.open('编辑','{:url(\'AuthRule/ruleAdd\')}?id={$vo.id}')"><i
+                        class="layui-icon">&#xe642;</i>编辑
+                </button>
+                <button class="layui-btn layui-btn-warm layui-btn-xs"
+                        onclick="xadmin.open('添加','{:url(\'AuthRule/levelAdd\')}?id={$vo.id}')"><i
+                        class="layui-icon">&#xe642;</i>添加子栏目
+                </button>
+                <button class="layui-btn-danger layui-btn layui-btn-xs" onclick="member_del(this,'{$vo.id}')"
+                        href="javascript:;"><i class="layui-icon">&#xe640;</i>删除
+                </button>
+            </td>
+        </tr>
+        <!--二级-->
+        {volist name="List1" id="vo1"}
+        {if $vo1.pid == $vo.id}
+        <tr cate-id='{$vo1.id}' fid='{$vo.id}'>
+            <td>{$vo1.id}</td>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="layui-icon x-show" status='true'>&#xe623;</i>
+                {$vo1.title}
+            </td>
+            <td>
+                {if $vo1.status == 0}
+                <input type="checkbox" name="openKG" lay-skin="switch" lay-filter="switchTest"
+                       lay-text="ON|OFF" value="{$vo1.id}">
+                {else /}
+                <input type="checkbox" checked="" name="openKG" lay-skin="switch" lay-filter="switchTest"
+                       lay-text="ON|OFF" value="{$vo1.id}">
+                {/if}
+            </td>
+            <td class="td-manage">
+                <button class="layui-btn layui-btn layui-btn-xs"
+                        onclick="xadmin.open('编辑','{:url(\'AuthRule/ruleAdd\')}?id={$vo1.id}')"><i
+                        class="layui-icon">&#xe642;</i>编辑
+                </button>
+                <button class="layui-btn layui-btn-warm layui-btn-xs"
+                        onclick="xadmin.open('添加','{:url(\'AuthRule/levelAdd\')}?id={$vo1.id}')"><i
+                        class="layui-icon">&#xe642;</i>添加子栏目
+                </button>
+                <button class="layui-btn-danger layui-btn layui-btn-xs" onclick="member_del(this,'{$vo1.id}')"
+                        href="javascript:;"><i class="layui-icon">&#xe640;</i>删除
+                </button>
+            </td>
+        </tr>
+        <!--三级-->
+        {volist name="List2" id="vo2"}
+        {if $vo2.pid == $vo1.id}
+        <tr cate-id='{$vo2.id}' fid='{$vo1.id}'>
+            <td>{$vo2.id}</td>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                ├{$vo2.title}
+            </td>
+            <td>
+                {if $vo2.status == 0}
+                <input type="checkbox" name="openKG" lay-skin="switch" lay-filter="switchTest"
+                       lay-text="ON|OFF" value="{$vo2.id}">
+                {else /}
+                <input type="checkbox" checked="" name="openKG" lay-skin="switch" lay-filter="switchTest"
+                       lay-text="ON|OFF" value="{$vo2.id}">
+                {/if}
+            </td>
+            <td class="td-manage">
+                <button class="layui-btn layui-btn layui-btn-xs"
+                        onclick="xadmin.open('编辑','{:url(\'AuthRule/ruleAdd\')}?id={$vo2.id}')"><i
+                        class="layui-icon">&#xe642;</i>编辑
+                </button>
+                <button class="layui-btn-danger layui-btn layui-btn-xs" onclick="member_del(this,'{$vo2.id}')"
+                        href="javascript:;"><i class="layui-icon">&#xe640;</i>删除
+                </button>
+            </td>
+        </tr>
+        {/if}
+        {/volist}
+        {/if}
+        {/volist}
+        {/volist}
+        </tbody>
+    </table>
+</div>
+{/block}
+{block name="js"}
+<script>
+
+    layui.use(['form'], function () {
+        form = layui.form;
+        form.on('switch(switchTest)', function (data) {
+            if (this.checked) {
+                // alert(0); //开启
+                $.ajax({
+                    url: "{:url('AuthRule/ruleUpdata')}",
+                    type: 'post',
+                    data: {id: data.value, status: '1'},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            layer.msg(res.msg);
+                            return false
+                        }
+                        layer.msg('启用');
+                    }
+                });
+            } else {
+                // alert(1) //关闭
+                $.ajax({
+                    url: "{:url('AuthRule/ruleUpdata')}",
+                    type: 'post',
+                    data: {id: data.value, status: '0'},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            layer.msg(res.msg);
+                            return false
+                        }
+                        layer.msg('停用');
+                    }
+                });
+
+            }
+
+        });
+
+    });
+
+    /*用户-删除*/
+    function member_del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                url: "{:url('AuthRule/ruleDel')}",
+                type: "post",
+                data: {id: id},
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 200) {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {icon: 1, time: 1000});
+                    } else {
+                        layer.open({
+                            title: '删除失败',
+                            content: res.message,
+                            icon: 5,
+                            anim: 6
+                        });
+                    }
+                }
+            })
+            return false;
+        });
+    }
+
+    // 分类展开收起的分类的逻辑
+    //
+    $(function () {
+        $("tbody.x-cate tr[fid!='0']").hide();
+        // 栏目多级显示效果
+        $('.x-show').click(function () {
+            if ($(this).attr('status') == 'true') {
+                $(this).html('&#xe625;');
+                $(this).attr('status', 'false');
+                cateId = $(this).parents('tr').attr('cate-id');
+                $("tbody tr[fid=" + cateId + "]").show();
+            } else {
+                cateIds = [];
+                $(this).html('&#xe623;');
+                $(this).attr('status', 'true');
+                cateId = $(this).parents('tr').attr('cate-id');
+                getCateId(cateId);
+                for (var i in cateIds) {
+                    $("tbody tr[cate-id=" + cateIds[i] + "]").hide().find('.x-show').html('&#xe623;').attr('status', 'true');
+                }
+            }
+        })
+    })
+    var cateIds = [];
+
+    function getCateId(cateId) {
+        $("tbody tr[fid=" + cateId + "]").each(function (index, el) {
+            id = $(el).attr('cate-id');
+            cateIds.push(id);
+            getCateId(id);
+        });
+    }
+</script>
+{/block}
