@@ -29,6 +29,17 @@
         <hr class="hr15">
         <input name="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
         <hr class="hr15">
+
+        <div>
+            <div style="float: left">
+                <input  name="captcha" lay-verify="required" placeholder="验证码" type="text" class="layui-input"
+                       style="width: 200px;">
+            </div>
+            <div style="float: right; width: 135px;height: 45px">
+                <img id="codePic" src="{:url('login/captcha')}" alt="captcha"  style="width: 100%;height: 100%;" onclick="flush()"/>
+            </div>
+        </div>
+        <hr class="hr15">
         <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="button" id="login">
         <hr class="hr20">
     </form>
@@ -52,12 +63,12 @@
                                 icon: 6,
                                 time: 2000
                             }, function () {
-                                window.location.href="{:url('admin/Index/index')}";
+                                window.location.href = "{:url('admin/Index/index')}";
                             });
                         } else {
                             layer.open({
                                 title: '登录失败',
-                                content: data.msg,
+                                content: data.message,
                                 icon: 5,
                                 anim: 6
                             });
@@ -68,6 +79,9 @@
             });
         });
     })
+    function flush() {
+        $("#codePic").attr("src","{:url('login/captcha')}?id="+Math.random());
+    }
 </script>
 <!-- 底部结束 -->
 </body>

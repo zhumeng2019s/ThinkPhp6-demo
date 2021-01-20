@@ -3,6 +3,7 @@
 
 namespace app\admin\model;
 
+use think\facade\Request;
 use think\Model;
 
 class User extends Model
@@ -14,9 +15,12 @@ class User extends Model
         if (empty($data)) {
             return 0;
         }
+        $data = Request::only(['username','password']);
         $res = $this->where('username', $data['username'])->find();
         if (!$res) {
-            return ['code' => 201, 'msg' => '用户不存在'];
+//            return ['code' => 201, 'msg' => '用户不存在'];
+            return show('201', '用户不存在', '');
+
         }
         $salt = $res['salt'];
         $dataSalt = md5($salt . $data['password'] . $salt);
@@ -24,7 +28,9 @@ class User extends Model
         $resData = $this->where($data)->find();
         if ($resData) {
             if (!$res['status'] == 1) {
-                return ['code' => 201, 'msg' => '账号被禁用'];
+//                return ['code' => 201, 'msg' => '账号被禁用'];
+                return show('201', '账号被禁用', '');
+
             }
             $administrator = [
                 'id' => $res['id'],
@@ -32,9 +38,11 @@ class User extends Model
                 'is_admin' => $res['is_admin']
             ];
             session('administrator', $administrator);
+//            return show('200', '登陆成功', '');
             return show('200', '登陆成功', '');
         } else {
-            return ['code' => 201, 'msg' => '账号或密码错误'];
+//            return ['code' => 201, 'msg' => '账号或密码错误'];
+            return show('201', '账号或密码错误', '');
         }
     }
 
