@@ -15,6 +15,7 @@ class Common
     ];
     public function __construct()
     {
+
         $auth = new Auth();
         $list = Db::table('think_user')->where('id', session('administrator.id'))->select();
         $Groupurls =[];

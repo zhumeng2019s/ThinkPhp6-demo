@@ -3,12 +3,10 @@
 
 namespace app\admin\controller;
 
-
 use app\admin\model\User;
-use think\captcha\facade\Captcha;
+use think\cache\driver\Redis;
 use think\facade\View;
 use think\Request;
-
 
 class Login
 {
@@ -24,7 +22,6 @@ class Login
         $usermodel = new User();
         $result = $usermodel->adminSel($data);
         return $result;
-//        return $data;
     }
     //
     public function loginout()
@@ -38,4 +35,18 @@ class Login
     {
         return captcha($id);
     }
+//    public function test(){
+//        $redis = new Redis(config('cache.redis'));
+//        return $redis->lLen('Meail');
+////        $redis->lpush('Meail','1151534434@qq.com');
+////        $redis->rPop('Meail');
+////        return  $redis->exists('Meail');
+////        $toMeail = $redis->rPop('list');
+////        return $toMeail;
+////        $redis->lpush('list','11111');
+////        $redis->lpush('list','html');
+////        return $redis->get('list');
+////        return json($redis->lRange('list',0,-1));
+//
+//    }
 }

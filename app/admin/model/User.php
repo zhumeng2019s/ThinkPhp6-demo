@@ -3,6 +3,7 @@
 
 namespace app\admin\model;
 
+use think\cache\driver\Redis;
 use think\facade\Request;
 use think\Model;
 
@@ -37,7 +38,16 @@ class User extends Model
                 'username' => $res['username'],
                 'is_admin' => $res['is_admin']
             ];
+            $res->login_times = $res->login_times+1;  //登陆次数
+            $res->login_ip = get_client_ip();  //登陆ip
+            $res->login_time = time();  //登陆时间
+            $res->last_login_ip = get_client_ip();  //上次登陆ip
+            $res->last_login_time = time();     //上次登陆时间
+            $res->save();
             session('administrator', $administrator);
+            $redis = new Redis(config('cache.redis'));
+            $redis->lpush('Meail',$res['email']);
+//            sendMail('mrwanghongze@163.com','登陆成功','hello word');
 //            return show('200', '登陆成功', '');
             return show('200', '登陆成功', '');
         } else {

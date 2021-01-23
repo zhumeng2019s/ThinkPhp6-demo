@@ -1,0 +1,63 @@
+{extend name="public/base" /}
+{block name="top"}
+<div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a href="">会员</a>
+            <a>
+              <cite>会员列表</cite></a>
+          </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','{:url(\'admin/add\')}',600,400)"><i
+                            class="layui-icon"></i>添加
+                    </button>
+                </div>
+                <div class="layui-card-body ">
+                    <table class="layui-table layui-form">
+                        <thead>
+                        <tr>
+                            <th>登录名</th>
+                            <th>邮箱</th>
+                            <th>登陆IP</th>
+                            <th>登陆时间</th>
+                            <th>登陆次数</th>
+                            <th>角色</th>
+                            <th>创建时间</th>
+                        </thead>
+                        <tbody>
+                        {foreach $list as $key=>$obj}
+                        <tr>
+                            <td>{$obj.username}</td>
+                            <td>{$obj.email}</td>
+                            <td>{$obj.login_ip}</td>
+                            <td>{$obj.login_time|date='Y-m-d H:i:s'}</td>
+                            <td>{$obj.login_times}</td>
+                            {foreach $groupTitle as $k=>$v}
+                            {if $obj.id == $v.id}
+                            <td>{$v.groupTitle}</td>
+                            {/if}
+                            {/foreach}
+                            <td>{$obj.create_time|date='Y-m-d H:i:s'}</td>
+                        </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script>
+
+</script>
+{/block}

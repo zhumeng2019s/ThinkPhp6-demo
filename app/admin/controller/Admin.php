@@ -108,4 +108,25 @@ class Admin extends Common
             ->update(['status' => $data['status']]);
         return $res;
     }
+    public function adminLog(){
+        $auth = new Auth();
+        $list = Db::table('think_user')
+            ->where('id', '>', '1')
+            ->order('id')
+            ->select();
+        $GroupTitle = [];
+        foreach ($list as $k => $v) {
+            $groupTitle = $auth->getGroups($v['id']);
+            $data = ['id' => $v['id'], 'groupTitle' => $groupTitle[0]['title'],'rules'=>$groupTitle[0]['rules']];
+            array_push($GroupTitle, $data);
+            /**
+             * 这里的foreach不知道为啥不好使。
+             */
+//            $v['groupTitle']  = $_groupTitle[0]['title'];
+////            $v['groupTitle'] = $groupTitle;
+        }
+        View::assign('groupTitle', $GroupTitle);
+        View::assign('list', $list);
+        return View::fetch('admin-log');
+    }
 }
