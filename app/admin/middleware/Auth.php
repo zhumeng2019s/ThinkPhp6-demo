@@ -36,7 +36,8 @@ class Auth
                     $url = strtolower($controller . "/" . $action);
                     if (!in_array($url, $no_auth)) {
                         if (!$auth->check($url, $administrator['id'])) {
-                            return response('没有权限');
+//                            return response('没有权限');
+                            return  json(show('202','没有权限'));
                         }
                     }
                 }

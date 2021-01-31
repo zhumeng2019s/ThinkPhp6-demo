@@ -1,5 +1,8 @@
 <?php
 // 应用公共文件
+/**
+ * 定义返回值
+*/
 function show($code, $message, $data = '')
 {
     $result = [
@@ -10,7 +13,9 @@ function show($code, $message, $data = '')
     return $result;
 }
 
-//
+/**
+ * 邮件服务
+*/
 function sendMail($to, $title, $content)
 {
     //实例化PHPMailer核心类
@@ -66,7 +71,9 @@ function sendMail($to, $title, $content)
     }
 }
 
-//
+/**
+ * ip地址
+*/
 function get_client_ip($type = 0, $adv = false)
 {
     $type = $type ? 1 : 0;
